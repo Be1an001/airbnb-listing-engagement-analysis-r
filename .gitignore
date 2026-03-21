@@ -1,0 +1,25 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# R files
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# Python / notebook leftovers
+__pycache__/
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# Local raw data files
+data/*.csv
+data/*.xlsx
+data/*.parquet
+data/*.zip
+
+# Keep markdown notes in data/
+!data/README.md
