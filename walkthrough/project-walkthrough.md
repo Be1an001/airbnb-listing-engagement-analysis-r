@@ -46,7 +46,7 @@ For a clearer note, see [../contribution-note.md](../contribution-note.md).
 ### Main dataset
 - **Airbnb Open Data**
 - Source: Kaggle
-- Raw file checked in this chat: **102,599 rows, 26 columns**
+- Raw file used in the project: **102,599 rows, 26 columns**
 
 ### Local file path used in this repo
 - [../data/README.md](../data/README.md)
@@ -118,12 +118,12 @@ We looked at:
 
 The project also included dashboard-style output to make the results easier to read.
 
-The uploaded materials showed:
+The project materials showed:
 - a map-based view of listing distribution
 - filters such as neighborhood group, room type, and price
 - a bar chart of top reviewed listings
 
-The original dashboard source file was not uploaded in this chat, so this repo keeps screenshots instead of the live workbook.
+The original dashboard source file is not included here, so this repo keeps screenshots instead of the live workbook.
 
 ### Selected figure: Dashboard view
 ![Dashboard](../outputs/figures/dashboard-map-and-top-reviews.png)
@@ -162,7 +162,7 @@ This step turned unstructured text into features that could be used later in mod
 ![Sentiment Distribution](../outputs/figures/sentiment-score-distribution.png)
 
 ### Topic themes found
-From the uploaded slides, the topic modeling section summarized three broad themes:
+From the project slides, the topic modeling section summarized three broad themes:
 - cleanliness and house maintenance
 - guest instructions and safety
 - general stay-related rules
@@ -202,7 +202,7 @@ rf_model <- randomForest(
 
 ## 6. Results
 
-From the uploaded report and slides, the most stable results were:
+From the project report and slides, the most stable results were:
 
 - **MAE = 19.18**
 - **RMSE = 35.36**

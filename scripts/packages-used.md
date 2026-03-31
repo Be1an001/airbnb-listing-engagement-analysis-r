@@ -1,6 +1,6 @@
 # Packages Used
 
-These package names were collected from the uploaded project code.
+These package names were collected from the original project code.
 
 ## R Packages
 

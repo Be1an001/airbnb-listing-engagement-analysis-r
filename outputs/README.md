@@ -2,11 +2,11 @@
 
 This folder keeps selected project visuals used in the public GitHub version.
 
-These figures were selected from the uploaded project materials and prepared for easier GitHub reading.
+These figures were selected from the original project materials and prepared for easier GitHub reading.
 
 Some of these visuals are also reused in the portfolio PDF version in the `portfolio/` folder.
 
-## Figures
+## Selected Figures
 
 - `room-type-distribution.png`
   - Summary chart showing the share of listings by room type
@@ -30,4 +30,6 @@ Some of these visuals are also reused in the portfolio PDF version in the `portf
 
 Some visuals in this folder are direct outputs or screenshots from the original project materials. Some were cleaned and renamed for portfolio readability.
 
-The original live dashboard source file was not uploaded in this chat, so this public repo uses screenshots instead.
+This folder also includes a few cover and gallery images used for repo presentation.
+
+The original live dashboard source file is not included here, so this public repo uses screenshots instead.

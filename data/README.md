@@ -29,9 +29,9 @@ The scripts in this repo expect the dataset to be located here:
 
 ## Data Scope Used in the Project
 
-From the uploaded project materials, this project used one main Airbnb listing dataset with:
+From the project dataset used here, this project used one main Airbnb listing dataset with:
 - 102,599 rows
-- 26 columns in the raw CSV file checked in this chat
+- 26 columns in the raw CSV file used for the project
 
 Main field groups included:
 - listing identifiers
@@ -45,4 +45,4 @@ Main field groups included:
 
 ## Data Dictionary Note
 
-A separate formal data dictionary file was **not** included in the uploaded project materials in this chat.
+A separate formal data dictionary file is **not** included in this public repo.
