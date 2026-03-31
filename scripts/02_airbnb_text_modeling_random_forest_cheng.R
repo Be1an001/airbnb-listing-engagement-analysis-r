@@ -25,8 +25,8 @@ print(colnames(airbnb_data))
 # =========================
 # Data Cleaning
 # =========================
-# Remove $ from price and convert to numeric
-airbnb_data$price <- as.numeric(gsub("\\$", "", airbnb_data$price))
+# Remove $ and commas from price and convert to numeric
+airbnb_data$price <- as.numeric(gsub("[$,]", "", airbnb_data$price))
 
 # Replace empty strings with NA in last.review
 airbnb_data$last.review[airbnb_data$last.review == ""] <- NA
@@ -35,7 +35,10 @@ airbnb_data$last.review[airbnb_data$last.review == ""] <- NA
 airbnb_data$last.review <- as.Date(airbnb_data$last.review, format = "%m/%d/%Y")
 print(str(airbnb_data))
 
-# Fill missing numerical values with column mean
+# Keep a copy for later modeling before exploratory imputation
+airbnb_data_raw <- airbnb_data
+
+# Fill missing numerical values with column mean for exploratory analysis
 numerical_cols <- sapply(airbnb_data, is.numeric)
 airbnb_data[numerical_cols] <- lapply(airbnb_data[numerical_cols], function(x) {
   ifelse(is.na(x), mean(x, na.rm = TRUE), x)
@@ -268,16 +271,39 @@ print(str(airbnb_data))
 # STEP 3: MODELING listing engagement
 # Here we use the derived features (sentiment and topics) along with existing numeric features to predict engagement
 # Engagement metric: number.of.reviews
-model_data <- airbnb_data %>%
-  select(number.of.reviews, sentiment_score, Topic1, Topic2, Topic3,
-         price, availability.365, minimum.nights, room.type) %>%
-  na.omit()
+model_features <- airbnb_data %>%
+  select(id, sentiment_score, Topic1, Topic2, Topic3)
+
+model_data <- airbnb_data_raw %>%
+  select(id, number.of.reviews, price, availability.365, minimum.nights, room.type) %>%
+  left_join(model_features, by = "id") %>%
+  select(-id) %>%
+  filter(!is.na(number.of.reviews))
 
 model_data$room.type <- as.factor(model_data$room.type)
 set.seed(123)
 train_index <- createDataPartition(model_data$number.of.reviews, p = 0.7, list = FALSE)
 train_data <- model_data[train_index,]
 test_data <- model_data[-train_index,]
+
+# Fill missing numerical values with training-set mean
+model_numeric_cols <- sapply(train_data, is.numeric)
+model_numeric_cols["number.of.reviews"] <- FALSE
+train_means <- sapply(train_data[, model_numeric_cols, drop = FALSE], function(x) {
+  if (all(is.na(x))) {
+    NA_real_
+  } else {
+    mean(x, na.rm = TRUE)
+  }
+})
+
+for (col_name in names(train_means)) {
+  train_data[[col_name]][is.na(train_data[[col_name]])] <- train_means[[col_name]]
+  test_data[[col_name]][is.na(test_data[[col_name]])] <- train_means[[col_name]]
+}
+
+train_data <- na.omit(train_data)
+test_data <- na.omit(test_data)
 
 # Fit a Random Forest model to predict number.of.reviews
 rf_model <- randomForest(number.of.reviews ~ ., data = train_data, ntree = 100, mtry = 3, importance = TRUE)
@@ -311,11 +337,11 @@ if(requireNamespace("pdp", quietly = TRUE)){
 set.seed(123)  # Ensure reproducibility
 control <- trainControl(method = "cv", number = 5)
 
-# Train the Random Forest model with cross-validation
+# Train the Random Forest model with cross-validation on training data
 rf_cv_model <- train(
   number.of.reviews ~ sentiment_score + Topic1 + Topic2 + Topic3 + 
     price + availability.365 + minimum.nights + room.type,
-  data = model_data,
+  data = train_data,
   method = "rf",
   trControl = control,
   tuneLength = 3
@@ -335,12 +361,12 @@ print(best_model)
 # Predictions on test data
 cv_preds <- predict(rf_cv_model, newdata = test_data)
 
-# Evaluate model performance on test data
+# Evaluate tuned model performance on held-out test data
 cv_MAE <- mean(abs(cv_preds - test_data$number.of.reviews))
 cv_RMSE <- sqrt(mean((cv_preds - test_data$number.of.reviews)^2))
 cv_R2 <- 1 - (sum((cv_preds - test_data$number.of.reviews)^2) / 
                 sum((test_data$number.of.reviews - mean(test_data$number.of.reviews))^2))
 
-cat("Cross-Validation MAE:", cv_MAE, "\n")
-cat("Cross-Validation RMSE:", cv_RMSE, "\n")
-cat("Cross-Validation R-squared:", cv_R2, "\n")
+cat("Held-out Test MAE after CV tuning:", cv_MAE, "\n")
+cat("Held-out Test RMSE after CV tuning:", cv_RMSE, "\n")
+cat("Held-out Test R-squared after CV tuning:", cv_R2, "\n")

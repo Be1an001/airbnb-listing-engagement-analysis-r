@@ -42,6 +42,7 @@ Both scripts should point to:
 - The dashboard source file itself was not uploaded in this chat, so this repo keeps screenshots instead of the original dashboard workbook.
 - The scripts were kept close to the original project materials, so they are project workflows rather than a polished one-click pipeline.
 - Script 1 writes a cleaned file named `Airbnb.csv` using a relative path, so running it from the repo root creates that file at the top level.
+- In Script 2, the held-out modeling step uses training-set means for numeric imputation, and the optional cross-validation block stays on the training split.
 
 ## Package List
 
