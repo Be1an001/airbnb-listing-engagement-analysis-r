@@ -14,7 +14,7 @@ This script covers the earlier-stage work shown in the project materials, includ
 - missing value handling
 - category cleanup
 - basic exploratory analysis
-- writing a cleaned CSV output
+- writing a cleaned CSV output (`Airbnb.csv`)
 
 ### 2. `02_airbnb_text_modeling_random_forest_cheng.R`
 This script covers the later-stage analytics work that I mainly focused on, including:
@@ -40,6 +40,8 @@ Both scripts should point to:
 - The final report appendix only included Wenzhuo's code.
 - My R code was provided separately in the project materials in this chat.
 - The dashboard source file itself was not uploaded in this chat, so this repo keeps screenshots instead of the original dashboard workbook.
+- The scripts were kept close to the original project materials, so they are project workflows rather than a polished one-click pipeline.
+- Script 1 writes a cleaned file named `Airbnb.csv` using a relative path, so running it from the repo root creates that file at the top level.
 
 ## Package List
 

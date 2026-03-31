@@ -37,8 +37,7 @@ unique_values <- lapply(df[categorical], function(x) {
 unique(x)
 })
 unique_values
-# find Brooklyn and brookln, Manhattan and manhatan, which are the same places, convert them
-into the same
+# find Brooklyn and brookln, Manhattan and manhatan, which are the same places, convert them into the same
 df <- df %>%
 mutate(neighbourhood.group = ifelse(neighbourhood.group == 'manhatan', 'Manhattan',
 neighbourhood.group)) %>%

@@ -1,6 +1,6 @@
 # Data Note
 
-This public repository does **not** include the full raw dataset.
+This public repository does **not** track the full raw dataset in the public GitHub version.
 
 ## Main Dataset Used in the Project
 
@@ -13,11 +13,11 @@ Original source used in the project:
 
 `https://www.kaggle.com/datasets/arianazmoudeh/airbnbopendata`
 
-## Why the raw CSV is not included here
+## Why the raw CSV is not tracked here
 
 I did not create the source data, and I want to keep this public repo clean and safe for portfolio use.
 
-Because of that, I am not re-uploading the full raw CSV in this public version. If you want to reproduce the code, please download the dataset from the original source and place it in this folder with the exact filename:
+Because of that, I keep the full raw CSV local and ignored in this repo. If you want to reproduce the code, please download the dataset from the original source and place it in this folder with the exact filename:
 
 `data/Airbnb_Open_Data.csv`
 

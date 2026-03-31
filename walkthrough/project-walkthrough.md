@@ -51,7 +51,7 @@ For a clearer note, see [../contribution-note.md](../contribution-note.md).
 ### Local file path used in this repo
 - [../data/README.md](../data/README.md)
 
-The full raw dataset is not included in this public repo. The scripts expect:
+The full raw dataset is not tracked in this public GitHub repo. The scripts expect:
 
 `data/Airbnb_Open_Data.csv`
 

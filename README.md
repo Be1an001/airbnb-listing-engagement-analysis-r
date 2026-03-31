@@ -114,7 +114,7 @@ airbnb-listing-engagement-analysis-r/
 
 ## Dataset Note
 
-The full raw dataset is **not included** in this public repository.
+The full raw dataset is **not tracked** in the public GitHub version of this repository.
 
 Please see [data/README.md](data/README.md) for the dataset source, expected filename, and reproduction note.
 

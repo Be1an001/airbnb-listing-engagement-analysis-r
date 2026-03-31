@@ -21,5 +21,8 @@ data/*.xlsx
 data/*.parquet
 data/*.zip
 
+# Generated local outputs
+Airbnb.csv
+
 # Keep markdown notes in data/
 !data/README.md
