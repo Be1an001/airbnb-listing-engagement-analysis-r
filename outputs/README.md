@@ -1,35 +1,51 @@
 # Outputs
 
-This folder keeps selected project visuals used in the public GitHub version.
+This folder keeps selected static visuals used in the public GitHub version of the project. The figures were selected from the original project materials and prepared for easier review on GitHub.
 
-These figures were selected from the original project materials and prepared for easier GitHub reading.
-
-Some of these visuals are also reused in the portfolio PDF version in the `portfolio/` folder.
+Some visuals are direct chart exports. Others are screenshots from the original report, slides, or dashboard-style materials.
 
 ## Selected Figures
 
 - `room-type-distribution.png`
-  - Summary chart showing the share of listings by room type
+  - Shows the share of listings by room type.
+  - Useful for explaining the basic supply mix in the dataset.
 
 - `top-neighborhoods-listing-count.png`
-  - Bar chart showing neighborhoods with the highest listing counts
+  - Shows the neighborhoods with the highest listing counts.
+  - Useful for explaining where listings were concentrated.
 
 - `dashboard-map-and-top-reviews.png`
-  - Dashboard-style screenshot showing map distribution and top reviewed listings
+  - Static dashboard-style screenshot showing listing geography, filters, and top reviewed listings.
+  - The live dashboard source file is not included in this repository.
 
 - `model-interpretation-panels.png`
-  - Visual summary of variable importance and partial dependence interpretation
+  - Slide-style visual summary of random forest variable importance and partial dependence.
+  - Useful for discussing model interpretation, but it should not be read as causal evidence.
 
 - `sentiment-score-distribution.png`
-  - Slide-based figure showing the distribution of sentiment scores from house rules
+  - Slide-style figure showing the distribution of sentiment scores from `house_rules`.
+  - Text-analysis findings should be interpreted carefully because many `house_rules` values are missing or may contain data artifacts.
 
 - `key-results-summary.png`
-  - Final summary slide of the main findings
+  - Final summary slide from the original presentation materials.
+  - Some wording in the slide is more direct than the README wording, so the project documentation uses more cautious association-based language.
 
-## Note
+- `gallery-1.png`
+  - Slide screenshot related to room type distribution.
+  - Kept as part of the original project visual record.
 
-Some visuals in this folder are direct outputs or screenshots from the original project materials. Some were cleaned and renamed for portfolio readability.
+- `gallery-2.png`
+  - Dashboard-style screenshot.
+  - Kept as part of the original project visual record.
 
-This folder also includes a few cover and gallery images used for repo presentation.
+- `report-cover.png`
+  - Cover image from the original final report.
 
-The original live dashboard source file is not included here, so this public repo uses screenshots instead.
+- `slide-cover.png`
+  - Cover image from the original final presentation.
+
+## Notes
+
+- These visuals are static artifacts, not a deployed dashboard or app.
+- The original live dashboard source file is not included here.
+- The visual interpretation should stay consistent with the main project limitation: this is observational analysis using review count as a proxy for listing engagement.

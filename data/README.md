@@ -1,48 +1,46 @@
 # Data Note
 
-This public repository does **not** track the full raw dataset in the public GitHub version.
+This project uses the Airbnb Open Data dataset from Kaggle. The public GitHub version of this repository is intended to keep the raw CSV out of version control.
 
-## Main Dataset Used in the Project
+## Dataset Used
 
-- Dataset name: **Airbnb Open Data**
-- Expected filename for local reproduction: `Airbnb_Open_Data.csv`
+- Dataset name: Airbnb Open Data
+- Source: `https://www.kaggle.com/datasets/arianazmoudeh/airbnbopendata`
+- Expected local filename: `Airbnb_Open_Data.csv`
+- Expected local path: `data/Airbnb_Open_Data.csv`
+- Raw file shape used in this project: 102,599 rows and 26 columns
+- Granularity: one row per Airbnb listing record
 
-## Source
+## Main Field Groups
 
-Original source used in the project:
+The project used one main listing-level table. Important field groups included:
 
-`https://www.kaggle.com/datasets/arianazmoudeh/airbnbopendata`
-
-## Why the raw CSV is not tracked here
-
-I did not create the source data, and I want to keep this public repo clean and safe for portfolio use.
-
-Because of that, I keep the full raw CSV local and ignored in this repo. If you want to reproduce the code, please download the dataset from the original source and place it in this folder with the exact filename:
-
-`data/Airbnb_Open_Data.csv`
-
-## Reproduction Note
-
-The scripts in this repo expect the dataset to be located here:
-
-`data/Airbnb_Open_Data.csv`
-
-## Data Scope Used in the Project
-
-From the project dataset used here, this project used one main Airbnb listing dataset with:
-- 102,599 rows
-- 26 columns in the raw CSV file used for the project
-
-Main field groups included:
 - listing identifiers
 - host information
-- neighborhood and geo fields
+- neighborhood and latitude/longitude fields
 - room type
 - price and service fee
 - minimum nights
-- review and availability fields
-- house rules text
+- review count and review-rate fields
+- availability fields
+- `house_rules` text
 
-## Data Dictionary Note
+The target used for modeling was `number of reviews`, which was treated as a practical proxy for listing engagement.
 
-A separate formal data dictionary file is **not** included in this public repo.
+## Reproduction Note
+
+To reproduce the R scripts locally:
+
+1. Download the dataset from Kaggle.
+2. Place the CSV at `data/Airbnb_Open_Data.csv`.
+3. Run the scripts from the repository root so the relative data path resolves correctly.
+
+The raw CSV may exist in a local working copy for reproduction, but it is ignored by `.gitignore` and is not part of the tracked public project files.
+
+## Data Limitations
+
+- `number of reviews` is only a proxy for engagement. It does not directly measure bookings, revenue, occupancy, or guest satisfaction.
+- A separate formal data dictionary is not included in this repository.
+- The raw dataset contains missing values and duplicate records that need to be handled before analysis.
+- Many `house_rules` values are missing or may contain data artifacts, so text-analysis results should be interpreted carefully.
+- The project uses public, observational data, so it should not be used to make causal claims.

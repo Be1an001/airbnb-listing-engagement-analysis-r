@@ -1,91 +1,89 @@
 # Project Walkthrough
 
-## 1. Project Overview
+This walkthrough explains the main project flow for the Airbnb Listing Engagement Analysis in R. It is a public portfolio version of a two-person ALY6110 course project at Northeastern University.
 
-This project was my final team project for **ALY6110: Big Data and Data Management** at Northeastern University in Fall 2024.
+The project studies NYC Airbnb listing data and uses `number of reviews` as a practical proxy for listing engagement. It does not directly measure bookings, revenue, occupancy, conversion, or guest satisfaction.
 
-My teammate and I used a public Airbnb dataset from New York City to study what may affect listing engagement. In this project, we treated **number of reviews** as a simple proxy for listing success.
+## Business Problem
 
-This GitHub version is a cleaned public version for portfolio use. It keeps the main story simple and readable, while still keeping the final report, slides, original scripts, selected outputs, and a portfolio PDF version.
+Airbnb hosts and analysts may want to understand which listing features are associated with more guest attention. In this project, the main question was:
 
-## 2. Business Problem
+**Which listing factors seem related to higher review volume, and can house-rules text add useful information?**
 
-Airbnb hosts and investors want to understand why some listings get more engagement than others.
+The analysis looked at:
 
-We wanted to look at:
 - room type
 - price
 - availability
 - minimum nights
-- location
-- house rules text
+- neighborhood and location
+- `house_rules` text
 
-The main question was:
+Because the dataset is observational, the findings should be interpreted as associations rather than causal effects.
 
-**Which factors seem most related to higher review volume, and can text from house rules add useful information?**
+## Project Objective
 
-## 3. Team Note
+The goal was to build a practical R analytics workflow that connected basic market analysis with text mining and model interpretation.
 
-This was a **2-person team project**.
+The workflow included:
 
-I mainly worked on the later-stage analytics part:
-- house rules text analysis
+- loading and cleaning listing-level Airbnb data
+- exploring room type, neighborhood, price, review, and availability patterns
+- using dashboard-style screenshots to communicate visual patterns
+- processing `house_rules` text into sentiment and topic features
+- training a random forest regression model for review volume
+- interpreting model results carefully
+
+## Team and Contribution Note
+
+This was a two-person course project, not a solo project.
+
+My main contribution focused on the later-stage analytics work:
+
+- house-rules text processing
 - sentiment scoring
-- topic modeling
+- LDA topic modeling
 - random forest modeling
 - model interpretation
 
-I also did some cleaning and clustering in my own R script.
+I also did some cleaning and clustering in my own R script. My teammate handled much of the earlier-stage data preparation, descriptive analysis, and some original report and slide sections.
 
-My teammate handled much of the earlier-stage data preparation, descriptive analysis, and some report and slide sections.
+For the separate ownership note, see [../contribution-note.md](../contribution-note.md).
 
-For a clearer note, see [../contribution-note.md](../contribution-note.md).
+## Dataset
 
-## 4. Dataset
-
-### Main dataset
-- **Airbnb Open Data**
+- Dataset: Airbnb Open Data
 - Source: Kaggle
-- Raw file used in the project: **102,599 rows, 26 columns**
+- Raw file used in the project: 102,599 rows and 26 columns
+- Expected local path: `data/Airbnb_Open_Data.csv`
+- Granularity: one row per Airbnb listing record
+- Modeling target: `number of reviews`
 
-### Local file path used in this repo
-- [../data/README.md](../data/README.md)
+Main field groups included listing identifiers, host information, neighborhood and geo fields, room type, price and service fee, minimum nights, review fields, availability fields, and `house_rules` text.
 
-The full raw dataset is not tracked in this public GitHub repo. The scripts expect:
+The public GitHub version is intended to keep the raw CSV out of version control. See [../data/README.md](../data/README.md) for the dataset source and reproduction note.
 
-`data/Airbnb_Open_Data.csv`
+## Methodology
 
-### Main field groups used
-- listing id
-- host information
-- neighborhood and location
-- room type
-- price and service fee
-- minimum nights
-- number of reviews
-- reviews per month
-- availability
-- house rules text
-
-## 5. Workflow
-
-## 5.1 Data Cleaning
+### 1. Data Cleaning
 
 The project started with raw CSV cleaning work:
+
 - checked duplicate rows
-- removed or corrected missing values
-- cleaned `$` symbols from price fields
-- standardized some category values
+- cleaned `$` symbols and commas from price fields
+- converted price and service-fee fields to numeric values
+- handled missing values
+- standardized selected neighborhood group values
 - removed the mostly empty `license` field
 - converted date fields
-- created a cleaner working dataset
 
 Related script:
+
 - [../scripts/01_airbnb_data_cleaning_eda_wenzhuo.R](../scripts/01_airbnb_data_cleaning_eda_wenzhuo.R)
 
-### Selected code example
+Selected code pattern:
 
-~~~r
+```r
 df <- read.csv("data/Airbnb_Open_Data.csv")
 
 df$price <- gsub("[$,]", "", df$price)
@@ -93,56 +91,70 @@ df$price <- as.numeric(df$price)
 
 df <- df[!duplicated(df), ]
 df <- df[!is.na(df$price), ]
-~~~
+```
 
-This part mattered because the raw file had duplicate rows, string-formatted price values, and missing values that had to be handled before analysis.
+This step mattered because the raw file contained duplicate records, string-formatted prices, missing values, and fields that needed cleanup before analysis.
 
-## 5.2 Basic Analysis and Visual Review
+### 2. Exploratory Analysis
 
-After cleaning, the project moved to descriptive analysis.
+After cleaning, the project moved into descriptive analysis and visual review.
 
-We looked at:
+The analysis looked at:
+
 - room type distribution
-- price patterns by room type and borough
 - top neighborhoods by listing count
+- price patterns by room type and borough
 - review-related patterns
 - geographic concentration of listings
+- exploratory clustering patterns
 
-### Selected figure: Room type distribution
+Selected figure:
+
 ![Room Type Distribution](../outputs/figures/room-type-distribution.png)
 
-### Selected figure: Top neighborhoods by listing count
+Selected figure:
+
 ![Top Neighborhoods](../outputs/figures/top-neighborhoods-listing-count.png)
 
-## 5.3 Dashboard and Visual Communication
+Room type and neighborhood patterns help describe the listing market, but they do not directly measure bookings or revenue.
 
-The project also included dashboard-style output to make the results easier to read.
+### 3. Dashboard-Style Visual Review
 
-The project materials showed:
-- a map-based view of listing distribution
-- filters such as neighborhood group, room type, and price
-- a bar chart of top reviewed listings
+The original project materials included dashboard-style visuals to make the listing patterns easier to read.
 
-The original dashboard source file is not included here, so this repo keeps screenshots instead of the live workbook.
+The screenshot shows:
 
-### Selected figure: Dashboard view
+- map-based listing distribution
+- price filter
+- room type filter
+- neighborhood group filter
+- top reviewed listings
+
+The live dashboard source file is not included in this repository, so the dashboard is represented as a static screenshot.
+
+Selected figure:
+
 ![Dashboard](../outputs/figures/dashboard-map-and-top-reviews.png)
 
-## 5.4 House Rules Text Analysis
+### 4. House-Rules Text Analysis
 
-This was the part I mainly focused on.
+This was the part I mainly focused on. The goal was to see whether `house_rules` text could add context beyond the normal structured listing fields.
 
-We wanted to see whether the tone and themes in `house_rules` could add useful information beyond the normal structured fields.
+The text workflow included:
 
-I used:
 - tokenization
-- stop word removal
+- stop-word removal
 - Bing sentiment scoring
 - LDA topic modeling
+- merging text-derived features back into the listing data
 
-### Selected code example
+Related script:
 
-~~~r
+- [../scripts/02_airbnb_text_modeling_random_forest_cheng.R](../scripts/02_airbnb_text_modeling_random_forest_cheng.R)
+
+Selected code pattern:
+
+```r
 tidy_rules <- airbnb_data %>%
   select(id, house_rules) %>%
   unnest_tokens(word, house_rules) %>%
@@ -154,39 +166,38 @@ rules_sentiment <- tidy_rules %>%
   inner_join(bing, by = "word") %>%
   group_by(id) %>%
   summarize(sentiment_score = sum(ifelse(sentiment == "positive", 1, -1)))
-~~~
+```
 
-This step turned unstructured text into features that could be used later in modeling.
+Selected figure:
 
-### Selected figure: Sentiment score distribution
 ![Sentiment Distribution](../outputs/figures/sentiment-score-distribution.png)
 
-### Topic themes found
-From the project slides, the topic modeling section summarized three broad themes:
+The sentiment findings should be interpreted carefully because many `house_rules` values are missing or may contain data artifacts.
+
+The project slides summarized three broad LDA topic themes:
+
 - cleanliness and house maintenance
 - guest instructions and safety
 - general stay-related rules
 
-Related script:
-- [../scripts/02_airbnb_text_modeling_random_forest_cheng.R](../scripts/02_airbnb_text_modeling_random_forest_cheng.R)
+### 5. Random Forest Modeling
 
-## 5.5 Predictive Modeling
-
-After creating text-based features, I used them together with structured listing variables to predict **number of reviews**.
+After creating text-based features, the project combined them with structured listing variables to model review volume.
 
 The model used:
+
 - sentiment score
-- topic probabilities
+- LDA topic probabilities
 - price
 - availability
 - minimum nights
 - room type
 
-The main model in the project was a **random forest**.
+The main model was a random forest regression model.
 
-### Selected code example
+Selected code pattern:
 
-~~~r
+```r
 rf_model <- randomForest(
   number.of.reviews ~ sentiment_score + Topic1 + Topic2 + Topic3 +
     price + availability.365 + minimum.nights + room.type,
@@ -195,59 +206,64 @@ rf_model <- randomForest(
   mtry = 3,
   importance = TRUE
 )
-~~~
+```
 
-### Selected figure: model interpretation
+Selected figure:
+
 ![Model Interpretation](../outputs/figures/model-interpretation-panels.png)
 
-## 6. Results
+Variable importance and partial dependence were used for interpretation. They should not be treated as causal evidence.
 
-From the project report and slides, the most stable results were:
+## Key Findings
 
-- **MAE = 19.18**
-- **RMSE = 35.36**
-- **R² = 0.349**
+- Entire home/apartment and private room listings made up most of the dataset.
+- Brooklyn and Manhattan had strong listing concentration in the project visuals.
+- The random forest model suggested that availability, minimum nights, and price were important predictors of review volume.
+- House-rules text features added some context, but they appeared less important than the main operational variables.
+- The model showed moderate predictive signal, with reported MAE 19.18, RMSE 35.36, and R-squared 0.349.
 
-The model explained about one-third of the variation in review counts. That is not extremely high, but it still showed useful ranking of factors.
+## Model Evaluation Note
 
-### Main factors
-The strongest predictors were:
-- `availability.365`
-- `minimum.nights`
-- `price`
+The reported random forest metrics were:
 
-The text features helped a little, but not as much as the main operational variables.
+- MAE: 19.18
+- RMSE: 35.36
+- R-squared: 0.349
 
-### Selected figure: key results
-![Key Results](../outputs/figures/key-results-summary.png)
+These results suggest limited but useful modeling signal. They should not be described as high accuracy or production-ready performance.
 
-## 7. What I Learned
+The modeling script includes optional cross-validation code, but confirmed completed cross-validation results are not included in the project documentation.
 
-This project was useful for me because it was not only about charts.
+## Limitations
 
-It made me connect:
-- raw data cleaning
-- exploratory analysis
-- text mining
-- feature engineering
-- machine learning
-- business interpretation
+- This was a two-person course project, so the full project should not be described as solo work.
+- Review count is an imperfect proxy for listing engagement.
+- The dataset does not directly measure bookings, revenue, occupancy, conversion, or guest satisfaction.
+- The analysis is observational and does not support causal claims.
+- Many `house_rules` values are missing or may contain artifacts, so text findings should be interpreted carefully.
+- The dashboard is included only as static screenshots; the live dashboard source file is not included.
+- No SQL, Streamlit, GenAI/LLM, MLOps, cloud deployment, or production system component is confirmed from the project files.
+- The model documentation does not include a confirmed baseline model or confirmed completed cross-validation results.
 
-It also gave me a good example of how to explain a team project honestly while still showing the part I really worked on.
+## Future Improvements
 
-## 8. Project Files in This Repo
+- Add a short data dictionary for the main columns.
+- Add clearer data validation for duplicates, missing text, invalid availability values, and unusual date values.
+- Add a simple baseline model before the random forest model.
+- Improve the text-modeling workflow so feature engineering is handled more carefully inside the modeling split.
+- Recreate the dashboard from source if dashboard work becomes a main part of the portfolio version.
+- Rewrite some slide captions with more cautious association-based wording.
 
-- [Portfolio folder note](../portfolio/README.md)
-- [Portfolio PDF](../portfolio/ALY6110_Module6_Airbnb_Portfolio.pdf)
-- [Final report](../reports/ALY6110_Module6_Final_Report.pdf)
-- [Final slides](../slides/ALY6110_Module6_Final_Presentation.pdf)
+## Related Files
+
+- [Main README](../README.md)
+- [Contribution note](../contribution-note.md)
+- [Data note](../data/README.md)
+- [Scripts guide](../scripts/README.md)
+- [Package list](../scripts/packages-used.md)
 - [Cleaning and EDA script](../scripts/01_airbnb_data_cleaning_eda_wenzhuo.R)
 - [Text modeling and random forest script](../scripts/02_airbnb_text_modeling_random_forest_cheng.R)
-- [Data note](../data/README.md)
-- [Outputs and figure note](../outputs/README.md)
-
-## 9. Final Note
-
-This is a portfolio-friendly public version of the project.
-
-I kept the original report, slides, and script structure so the work still feels real and traceable, but I rewrote the repository content in a simpler and cleaner way for GitHub visitors.
+- [Outputs guide](../outputs/README.md)
+- [Final report PDF](../reports/ALY6110_Module6_Final_Report.pdf)
+- [Final presentation PDF](../slides/ALY6110_Module6_Final_Presentation.pdf)
+- [Portfolio PDF](../portfolio/ALY6110_Module6_Airbnb_Portfolio.pdf)

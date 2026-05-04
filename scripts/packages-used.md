@@ -1,6 +1,6 @@
 # Packages Used
 
-These package names were collected from the original project code.
+These package names were collected from the R scripts in this project. This file is a package reference, not a locked R environment file.
 
 ## R Packages
 
@@ -24,6 +24,7 @@ These package names were collected from the original project code.
 
 ## Notes
 
-- Not every package appears in every step of the project.
-- Some packages were used in the earlier cleaning / EDA script.
-- Some packages were used in the later NLP / modeling script.
+- Not every package is used in every project step.
+- Some packages support earlier cleaning, EDA, and visualization work.
+- Some packages support later text mining, topic modeling, random forest modeling, and model interpretation.
+- A future reproducibility improvement would be to add an `renv.lock` file or another versioned environment setup.
